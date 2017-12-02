@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class commit_rollback
+{
+	public static void main(String[] args) throws Exception		//MAIN() STARTS
+	{
+		
+		Connection con=null;
+		Statement st=null;
+		try
+		{
+			//LOAD AND REGISTER THE DRIVER
+		Class.forName("oracle.jdbc.OracleDriver");
+		//establish connection between java app and database
+		 con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "oracle");
+		 //set the auto commit to false because it is always true 
+		 con.setAutoCommit(false);
+		 //create the statement
+		 st=con.createStatement();
+		 //execute the query
+		 st.executeUpdate("INSERT INTO STUD VALUES(99,'pree','pree@gmail.com','pune'");
+		 //Commit the changes i.e. insert record successfully
+		 con.commit();
+		 System.out.println("\t==Transaction success==");
+		 
+			}//try ENDS
+		catch (Exception e1) {
+			try
+			{
+				con.rollback();	//rollback the transaction
+				System.out.println("\t==Transaction Fails==");
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+				
+			
+					
+			//	CLOSE THE RESOURSES
+
+				con.close();
+				st.close();
+				//rs.close();
+				
+				System.out.print("\n\t\t ==PROGRAMME BY PRATIK DIMBLE==");
+		
+	}		//MAIN() ENDS
+
+}		//		CLASS ENDS
